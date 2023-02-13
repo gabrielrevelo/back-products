@@ -146,4 +146,16 @@ public class ProductRouter {
                         .body(BodyInserters.fromPublisher(deleteUseCase.apply(request.pathVariable("id")), Void.class))
         );
     }
+    @Bean
+    public RouterFunction<ServerResponse> update(UpdateUseCase updateUseCase) {
+        Function<ProductDTO, Mono<ServerResponse>> executor = productDTO ->  updateUseCase.apply(productDTO)
+                .flatMap(result -> ServerResponse.ok()
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .bodyValue(result));
+
+        return route(
+                PUT("/update").and(accept(MediaType.APPLICATION_JSON)),
+                request -> request.bodyToMono(ProductDTO.class).flatMap(executor)
+        );
+    }
 }
