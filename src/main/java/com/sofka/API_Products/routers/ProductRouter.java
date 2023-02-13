@@ -1,7 +1,7 @@
 package com.sofka.API_Products.routers;
 
 import com.sofka.API_Products.model.ProductDTO;
-import com.sofka.API_Products.useCases.CreateUseCase;
+import com.sofka.API_Products.useCases.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -156,6 +156,15 @@ public class ProductRouter {
         return route(
                 PUT("/update").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(ProductDTO.class).flatMap(executor)
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> getTotalPages(ListUseCase listUseCase) {
+        return route(GET("/totalPages"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(listUseCase.getTotalPages(), Integer.class))
         );
     }
 }

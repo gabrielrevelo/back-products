@@ -30,6 +30,9 @@ public class ProductDTO {
         this.max = max;
     }
 
+    public ProductDTO() {
+    }
+
     public String getId() {
         return id;
     }

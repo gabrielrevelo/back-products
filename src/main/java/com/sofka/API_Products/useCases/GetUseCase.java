@@ -1,6 +1,5 @@
-package com.sofka.API_Products.routers;
+package com.sofka.API_Products.useCases;
 
-import com.sofka.API_Products.collection.Product;
 import com.sofka.API_Products.model.ProductDTO;
 import com.sofka.API_Products.repository.ProductRepository;
 import com.sofka.API_Products.utils.MapperUtils;
@@ -9,23 +8,25 @@ import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 @Service
 @Validated
-public class UpdateUseCase {
+public class GetUseCase implements Function<String, Mono<ProductDTO>> {
+
     private final ProductRepository productRepository;
 
     private final MapperUtils mapperUtils;
 
-    public UpdateUseCase(ProductRepository productRepository, MapperUtils mapperUtils) {
+    public GetUseCase(MapperUtils mapperUtils, ProductRepository productRepository) {
         this.productRepository = productRepository;
         this.mapperUtils = mapperUtils;
     }
 
-    public Mono<String> apply(ProductDTO dto) {
-        Objects.requireNonNull(dto.getId(), "Id of the question is required");
-        return productRepository
-                .save(mapperUtils.mapperToProduct(dto.getId()).apply(dto))
-                .map(Product::getId);
+    @Override
+    public Mono<ProductDTO> apply(String id) {
+        Objects.requireNonNull(id, "Id is required");
+        return productRepository.findById(id)
+                .map(mapperUtils.mapEntityToProduct());
     }
 }

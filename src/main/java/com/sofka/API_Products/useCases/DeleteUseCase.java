@@ -1,4 +1,4 @@
-package com.sofka.API_Products.routers;
+package com.sofka.API_Products.useCases;
 
 import com.sofka.API_Products.repository.ProductRepository;
 import org.springframework.stereotype.Service;
