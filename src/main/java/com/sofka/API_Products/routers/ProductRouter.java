@@ -63,6 +63,15 @@ public class ProductRouter {
     }
 
     @Bean
+    public RouterFunction<ServerResponse> getAll(ListUseCase listUseCase) {
+        return route(GET("/list"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(listUseCase.getAll(), ProductDTO.class))
+        );
+    }
+
+    @Bean
     @RouterOperation(
             path = "/list/{page}",
             produces = {
@@ -89,7 +98,7 @@ public class ProductRouter {
                     }
             )
     )
-    public RouterFunction<ServerResponse> getAll(ListUseCase listUseCase) {
+    public RouterFunction<ServerResponse> getPage(ListUseCase listUseCase) {
         return route(GET("/list/{page}"),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)

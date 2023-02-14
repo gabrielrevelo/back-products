@@ -21,6 +21,19 @@ public class Product {
 
     private Integer max;
 
+    public Product(String id, String name, Integer inventory, String imageUrl, Boolean enabled, Integer min, Integer max) {
+        this.id = id;
+        this.name = name;
+        this.inventory = inventory;
+        this.imageUrl = imageUrl;
+        this.enabled = enabled;
+        this.min = min;
+        this.max = max;
+    }
+
+    public Product() {
+    }
+
     public String getId() {
         return id;
     }

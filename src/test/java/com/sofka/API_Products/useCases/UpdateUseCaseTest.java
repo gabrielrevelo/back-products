@@ -7,6 +7,7 @@ import com.sofka.API_Products.utils.MapperUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -14,30 +15,27 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CreateUseCaseTest {
-
+public class UpdateUseCaseTest {
     @SpyBean
-    private CreateUseCase createUseCase;
+    UpdateUseCase updateUseCase;
+
+    @Mock
+    private ProductRepository productRepository;
+
     @Autowired
     private MapperUtils mapperUtils;
 
-    @Mock
-    ProductRepository productRepository;
-
-
     @Test
-    public void Create(){
-        Product prod = new Product();
-        ProductDTO productDTO =new ProductDTO("000","pelota",100,"url",true,10,50);
-        prod.setId(productDTO.getId());
+    void Update() {
+        Product product = new Product("000", "pelota", 100, "url", true, 10, 50);
+        ProductDTO productDTO = new ProductDTO("000", "pelota", 100, "url", true, 10, 50);
 
+        Mockito.when(productRepository.save(product)).thenReturn(Mono.just(product));
 
-        Mockito.when(productRepository.save(prod))
-                .thenReturn(Mono.just(mapperUtils
-                        .mapperToProduct(prod.getId())
-                        .apply(productDTO)));
+        StepVerifier.create(updateUseCase.apply(productDTO)).expectNextMatches(mono -> {
+            assert mono.equals("000");
+            return true;
+        }).verifyComplete();
+    }
 
-        StepVerifier.create(createUseCase.apply(productDTO))
-                .equals("000");
-
-    }}
+}

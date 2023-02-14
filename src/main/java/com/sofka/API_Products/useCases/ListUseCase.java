@@ -23,6 +23,11 @@ public class ListUseCase {
         this.mapperUtils = mapperUtils;
     }
 
+    public Flux<ProductDTO> getAll() {
+        return productRepository.findAll()
+                .map(mapperUtils.mapEntityToProduct());
+    }
+
     public Flux<ProductDTO> get(int page) {
         return productRepository.findAllByIdNotNullOrderByIdAsc(PageRequest.of(page, 6))
                 .map(mapperUtils.mapEntityToProduct());
