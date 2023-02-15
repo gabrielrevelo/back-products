@@ -14,10 +14,13 @@ public class ProductDTO {
     @NotBlank
     private String imageUrl;
 
+    @NotNull
     private Boolean enabled;
 
+    @NotNull
     private Integer min;
 
+    @NotNull
     private Integer max;
 
     public ProductDTO(String id, String name, Integer inventory, String imageUrl, Boolean enabled, Integer min, Integer max) {
