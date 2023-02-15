@@ -1,7 +1,9 @@
 package com.sofka.API_Products.utils;
 
 import com.sofka.API_Products.collection.Product;
+import com.sofka.API_Products.collection.User;
 import com.sofka.API_Products.model.ProductDTO;
+import com.sofka.API_Products.model.UserDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
@@ -32,5 +34,16 @@ public class MapperUtils {
                 entity.getMin(),
                 entity.getMax()
         );
+    }
+
+    public Function<UserDTO, User> mapperToUser(){
+        return userDTO -> {
+            User bike = new User();
+            bike.setEmail(userDTO.getEmail());
+            bike.setPassword(userDTO.getPassword());
+            bike.setRols(userDTO.getRols());
+
+            return bike;
+        };
     }
 }
