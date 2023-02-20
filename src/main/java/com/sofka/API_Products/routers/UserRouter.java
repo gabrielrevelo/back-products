@@ -3,7 +3,6 @@ package com.sofka.API_Products.routers;
 import com.sofka.API_Products.collection.User;
 import com.sofka.API_Products.model.UserDTO;
 import com.sofka.API_Products.useCases.FindUserByEmailUseCase;
-import com.sofka.API_Products.useCases.SaveUserUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -31,7 +30,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @Slf4j
 public class UserRouter {
 
-    @RouterOperation(
+/*    @RouterOperation(
             path = "/saveUser",
             produces ={
                     MediaType.APPLICATION_JSON_VALUE
@@ -69,14 +68,16 @@ public class UserRouter {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .bodyValue(result);
                     });
-        };
+        };*/
 
 
+/*
         return route(
                 POST("/saveUser").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(UserDTO.class).flatMap(executor)
         );
     }
+*/
 
     @RouterOperation(
             path = "/findUser/{email}",

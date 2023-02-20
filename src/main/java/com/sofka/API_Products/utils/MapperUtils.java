@@ -36,14 +36,5 @@ public class MapperUtils {
         );
     }
 
-    public Function<UserDTO, User> mapperToUser(){
-        return userDTO -> {
-            User bike = new User();
-            bike.setEmail(userDTO.getEmail());
-            bike.setPassword(userDTO.getPassword());
-            bike.setRols(userDTO.getRols());
 
-            return bike;
-        };
-    }
 }

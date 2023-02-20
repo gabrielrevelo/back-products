@@ -14,6 +14,6 @@ public class FindUserByEmailUseCase {
     private UserRepository userRepository;
 
     public Mono<User> findUserByEmail(String email){
-        return userRepository.findUserByEmail(email);
+        return userRepository.findByUsername(email);
     }
 }
