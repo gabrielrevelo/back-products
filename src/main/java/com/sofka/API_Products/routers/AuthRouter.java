@@ -42,10 +42,22 @@ public class AuthRouter {
     @Bean
     public RouterFunction<ServerResponse> loginRouter(FindUserUseCase findUserUseCase) {
         Function<User, Mono<ServerResponse>> executor = user -> findUserUseCase.findByUsername(user.getUsername())
-                .flatMap(userDetails -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
-                        .bodyValue(
-                                new AuthResponse(userDetails.getUsername(), userDetails.getRoles(), jwtUtil.generateToken(userDetails))
-                        ));
+                .flatMap(userDetails -> {
+                    if(userDetails.getPassword().equals( user.getPassword())){
+
+                        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
+                                .bodyValue(
+                                        new AuthResponse(userDetails.getUsername(), userDetails.getRoles(), jwtUtil.generateToken(userDetails))
+                                );
+                    } else {
+                        return ServerResponse.status(401).contentType(MediaType.APPLICATION_JSON)
+                                .bodyValue(
+                                        "Contraseña Incorrecta"
+                                );
+                    }
+
+
+                });
 
         return route(
                 POST("/login").and(accept(MediaType.APPLICATION_JSON)),
